@@ -67,6 +67,5 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           tags: ${{ steps.meta.outputs.tags }}
           push: true
-          outputs: type=image,name=${{ env[matrix.image_name_env] }},push-by-digest=true,name-canonical=true,push=true
           cache-from: type=gha,scope=${{ matrix.service_name }}
           cache-to: type=gha,mode=max,scope=${{ matrix.service_name }}
