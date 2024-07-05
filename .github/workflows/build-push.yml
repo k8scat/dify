@@ -54,6 +54,8 @@ jobs:
         uses: docker/metadata-action@v5
         with:
           images: ${{ env[matrix.image_name_env] }}
+          tags: |
+            type=raw,value=latest
 
       - name: Build Docker image
         id: build
@@ -63,39 +65,8 @@ jobs:
           platforms: ${{ matrix.platform }}
           build-args: COMMIT_SHA=${{ fromJSON(steps.meta.outputs.json).labels['org.opencontainers.image.revision'] }}
           labels: ${{ steps.meta.outputs.labels }}
+          tags: ${{ steps.meta.outputs.tags }}
+          push: true
           outputs: type=image,name=${{ env[matrix.image_name_env] }},push-by-digest=true,name-canonical=true,push=true
           cache-from: type=gha,scope=${{ matrix.service_name }}
           cache-to: type=gha,mode=max,scope=${{ matrix.service_name }}
-
-  create-manifest:
-    needs: build
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        include:
-          - service_name: "merge-api-images"
-            image_name_env: "DIFY_API_IMAGE_NAME"
-            context: "api"
-          - service_name: "merge-web-images"
-            image_name_env: "DIFY_WEB_IMAGE_NAME"
-            context: "web"
-    steps:
-      - name: Login to Docker Hub
-        uses: docker/login-action@v2
-        with:
-          username: ${{ env.DOCKERHUB_USER }}
-          password: ${{ env.DOCKERHUB_TOKEN }}
-
-      - name: Extract metadata for Docker
-        id: meta
-        uses: docker/metadata-action@v5
-        with:
-          images: ${{ env[matrix.image_name_env] }}
-          tags: |
-            type=raw,value=latest
-
-      - name: Create manifest list and push
-        working-directory: /tmp/digests
-        run: |
-          docker buildx imagetools create $(jq -cr '.tags | map("-t " + .) | join(" ")' <<< "$DOCKER_METADATA_OUTPUT_JSON") \
-            $(printf '${{ env[matrix.image_name_env] }}@sha256:%s ' *)
