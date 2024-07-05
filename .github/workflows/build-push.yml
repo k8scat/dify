@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - "dev"
+  workflow_dispatch:
 
 concurrency:
   group: build-push-${{ github.head_ref || github.run_id }}
