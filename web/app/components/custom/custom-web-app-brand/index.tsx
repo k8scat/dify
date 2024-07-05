@@ -118,18 +118,6 @@ const CustomWebAppBrand = () => {
         </div>
         <div className='flex items-center h-5 justify-between'>
           <div className='w-[369px] h-1.5 rounded-sm bg-gray-200 opacity-80' />
-          {
-            !webappBrandRemoved && (
-              <div className='flex items-center text-[10px] font-medium text-gray-400'>
-                POWERED BY
-                {
-                  webappLogo
-                    ? <img src={`${webappLogo}?hash=${imgKey}`} alt='logo' className='ml-2 block w-auto h-5' />
-                    : <LogoSite className='ml-2 !h-5' />
-                }
-              </div>
-            )
-          }
         </div>
       </div>
       <div className='flex items-center justify-between mb-2 px-4 h-14 rounded-xl border-[0.5px] border-gray-200 bg-gray-50 text-sm font-medium text-gray-900'>
