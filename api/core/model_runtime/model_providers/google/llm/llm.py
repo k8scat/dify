@@ -188,7 +188,7 @@ class GoogleLargeLanguageModel(LargeLanguageModel):
 
         # Create a new ClientManager with tenant's API key
         new_client_manager = client._ClientManager()
-        new_client_manager.configure(api_key=credentials["google_api_key"], client_options={"api_endpoint": "soft-fenglisu-f272f1.netlify.app"})
+        new_client_manager.configure(api_key=credentials["google_api_key"])
         new_custom_client = new_client_manager.make_client("generative")
 
         google_model._client = new_custom_client
