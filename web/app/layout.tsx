@@ -33,6 +33,7 @@ const LocaleLayout = ({
         <meta name="mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+        <script defer src="https://umami.resium.cn/script.js" data-website-id="9f2524de-dad5-4ad3-a72c-383c9e362dfb"></script>
       </head>
       <body
         className="h-full select-auto"
