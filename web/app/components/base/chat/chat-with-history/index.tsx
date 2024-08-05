@@ -4,6 +4,7 @@ import {
   useState,
 } from 'react'
 import { useAsyncEffect } from 'ahooks'
+import { useThemeContext } from '../embedded-chatbot/theme/theme-context'
 import {
   ChatWithHistoryContext,
   useChatWithHistoryContext,
@@ -34,6 +35,7 @@ const ChatWithHistory: FC<ChatWithHistoryProps> = ({
     appChatListDataLoading,
     chatShouldReloadKey,
     isMobile,
+    themeBuilder,
   } = useChatWithHistoryContext()
 
   const chatReady = (!showConfigPanelBeforeChat || !!appPrevChatList.length)
@@ -41,10 +43,11 @@ const ChatWithHistory: FC<ChatWithHistoryProps> = ({
   const site = appData?.site
 
   useEffect(() => {
+    themeBuilder?.buildTheme(site?.chat_color_theme, site?.chat_color_theme_inverted)
     if (site) {
       document.title = `${site.title}`
     }
-  }, [site, customConfig])
+  }, [site, customConfig, themeBuilder])
 
   if (appInfoLoading) {
     return (
@@ -103,6 +106,7 @@ const ChatWithHistoryWrap: FC<ChatWithHistoryWrapProps> = ({
 }) => {
   const media = useBreakpoints()
   const isMobile = media === MediaType.mobile
+  const themeBuilder = useThemeContext()
 
   const {
     appInfoError,
@@ -168,6 +172,7 @@ const ChatWithHistoryWrap: FC<ChatWithHistoryWrapProps> = ({
       appId,
       handleFeedback,
       currentChatInstanceRef,
+      themeBuilder,
     }}>
       <ChatWithHistory className={className} />
     </ChatWithHistoryContext.Provider>

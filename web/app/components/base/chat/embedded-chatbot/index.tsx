@@ -48,7 +48,7 @@ const Chatbot = () => {
     if (site) {
       document.title = `${site.title}`
     }
-  }, [site, customConfig])
+  }, [site, customConfig, themeBuilder])
 
   if (appInfoLoading) {
     return (
